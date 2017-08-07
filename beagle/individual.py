@@ -5,6 +5,12 @@ import numpy as np
 def matches( vector, a ):
     return [ i for i, e in enumerate( vector ) if e == a ]
 
+def mutate( i, mutator ):
+    return Individual( vector=mutator( i.vector ) )
+
+def crossover( i1, i2 ):
+    return np.array( [ random.choice( [ a, b ] ) for a, b in zip( i1.vector, i2.vector ) ] )
+
 class Individual:
 
     def __init__( self, vector ):
