@@ -10,8 +10,8 @@ class Individual:
     def __init__( self, vector ):
         self.vector = vector
 
-    def fitness_score( self, fitness_function, *args ):
-        return fitness_function( self.vector, *args )
+    def fitness_score( self, fitness_function ):
+        return fitness_function( self.vector )
 
     def off_target( self, target ):
         difference = {}
