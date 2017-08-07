@@ -40,4 +40,4 @@ class Individual:
             difference = self.off_target( target )
 
     def __eq__( self, other ):
-        return self.vector == other.vector
+        return np.array_equal( self.vector, other.vector )
