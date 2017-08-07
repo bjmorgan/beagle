@@ -22,6 +22,7 @@ class Population:
     def fitness_scores( self, fitness_function ):
         return np.array( [ i.fitness_score( fitness_function ) for i in self.individuals ] )
 
+    @property
     def scores( self ):
         return np.array( [ i.score for i in self.individuals ] )
 
