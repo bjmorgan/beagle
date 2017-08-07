@@ -10,8 +10,8 @@ class Individual:
     def __init__( self, vector ):
         self.vector = vector
 
-    def fitness_score( self, fitness_function ):
-        return fitness_function( self.vector )
+    def fitness_score( self, fitness_function, *args ):
+        return fitness_function( self.vector, *args )
 
     def off_target( self, target ):
         difference = {}
@@ -32,3 +32,6 @@ class Individual:
             j = random.choice( too_few )
             self.vector[ random.choice( matches( self.vector, i ) ) ] = j
             difference = self.off_target( target )
+
+    def __eq__( self, other ):
+        return self.vector == other.vector

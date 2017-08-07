@@ -1,5 +1,9 @@
 import random
 from beagle import Individual
+from scipy.constants import physical_constants
+import numpy as np
+
+k_b = physical_constants[ 'Boltzmann constant in eV/K' ][0]
 
 class Population:
 
@@ -16,7 +20,7 @@ class Population:
         return iter( self.individuals )
 
     def fitness_scores( self, fitness_function ):
-        return [ i.fitness_score( fitness_function ) for i in self.individuals ]
+        return np.array( [ i.fitness_score( fitness_function ) for i in self.individuals ] )
 
     def sample( self, n=1 ):
         return random.sample( self.individuals, n )
@@ -35,3 +39,9 @@ class Population:
 
     def ranked( self, fitness_function ):
         return Population( individuals=sorted( self.individuals, key=lambda i: i.fitness_score( fitness_function ) ) )
+
+    def boltzmann( self, fitness_function, temp, size ):
+        s = self.fitness_scores( fitness_function )
+        rel_p = np.exp( - ( s - s.min() ) / ( k_b * temp ) )
+        rel_p /= sum( rel_p )
+        return list( np.random.choice( self.individuals, size=size, p=rel_p, replace=False ) )
