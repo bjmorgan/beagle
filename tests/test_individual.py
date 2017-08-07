@@ -12,12 +12,18 @@ class TestIndividual( unittest.TestCase ):
         v = np.array( [ 1, 2, 3 ] )
         i = Individual( vector=v )
         np.testing.assert_array_equal( i.vector, v )
+        self.assertEqual( i._score, None )
 
     def test_fitness_score( self ):
         f = Mock( return_value=6 )
         score = self.individual.fitness_score( f )
         self.assertEqual( score, 6 )
         f.assert_called_with( self.individual.vector )
+
+    def test_fitness_score_if_already_calculated( self ):
+        self.individual._score = 3.5
+        f = Mock()
+        self.assertEqual( self.individual.fitness_score( f ), 3.5 )
     
     def test_off_target( self ):
         target = { 1:1, 2:2, 3:0 }
