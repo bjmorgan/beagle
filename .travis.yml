@@ -12,4 +12,6 @@ python:
 # command to install dependencies
 install: pip install -r requirements.txt
 # command to run tests
-script: python3 -m unittest discover
+script: coverage run --rcfile=.coveragerc -m unittest discover
+after_success:
+  - codeclimate-test-reporter --token $CODECLIMATE_REPO_TOKEN
