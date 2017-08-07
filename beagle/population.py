@@ -37,6 +37,9 @@ class Population:
         self.individuals.append( to_add )
         return self
 
+    def __len__( self ):
+        return len( self.individuals )
+
     def ranked( self, fitness_function ):
         return Population( individuals=sorted( self.individuals, key=lambda i: i.fitness_score( fitness_function ) ) )
 
