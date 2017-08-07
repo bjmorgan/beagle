@@ -22,6 +22,9 @@ class Population:
     def fitness_scores( self, fitness_function ):
         return np.array( [ i.fitness_score( fitness_function ) for i in self.individuals ] )
 
+    def scores( self ):
+        return np.array( [ i.score for i in self.individuals ] )
+
     def sample( self, n=1 ):
         return random.sample( self.individuals, n )
 
@@ -48,3 +51,6 @@ class Population:
         rel_p = np.exp( - ( s - s.min() ) / ( k_b * temp ) )
         rel_p /= sum( rel_p )
         return list( np.random.choice( self.individuals, size=size, p=rel_p, replace=False ) )
+
+    def sort( self ):
+        self.individuals.sort()

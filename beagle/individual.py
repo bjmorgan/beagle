@@ -15,9 +15,19 @@ class Individual:
 
     def __init__( self, vector ):
         self.vector = vector
+        self._score = None
 
     def fitness_score( self, fitness_function ):
-        return fitness_function( self.vector )
+        if not self._score:
+            self._score = fitness_function( self.vector )
+        return self._score
+
+    @property
+    def score( self ):
+        if not self._score:
+            raise AttributeError
+        else:
+            return self._score
 
     def off_target( self, target ):
         difference = {}
@@ -41,3 +51,6 @@ class Individual:
 
     def __eq__( self, other ):
         return np.array_equal( self.vector, other.vector )
+
+    def __lt__( self, other ):
+        return self.score < other.score
