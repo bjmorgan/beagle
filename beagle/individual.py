@@ -17,19 +17,24 @@ class Individual:
 
     An Individual describes a single potential solution within the problem vector space.
 
-    e.g.::
+    Example::
     
-        Individual( vector )
+        >>> vector = np.array( [ 1, 0, 1, 0 ] )
+        >>> Individual( vector )
+        Individual([1 0 1 0])
 
-    where `vector` is a numpy `ndarray`.
     """
     
     def __init__( self, vector ):
         """
         Create an `Individual` object.
 
+        >>> vector = np.array( [ 1, 0, 1, 0 ] )
+        >>> Individual( vector )
+        Individual([1 0 1 0])
+
         Args:
-            vetor (ndarray(int)): A vector of integers, describing this particular potential solution.
+            vector (ndarray(int)): A vector of integers, describing this particular potential solution.
 
         Returns:
             None
@@ -40,6 +45,12 @@ class Individual:
     def fitness_score( self, fitness_function, use_saved_value=True ):
         """
         Returns the fitness score of this `Individual`, evaluated with a particular objective function.
+
+        >>> vector = np.array( [ 1, 0, 1, 0 ] )
+        >>> ind = Individual( vector )
+        >>> objective_function = lambda x: sum( x )
+        >>> ind.fitness_score( objective_function )
+        2
 
         Args:
             fitness_function (function): The objective function, f(x), where x is the vector for this Individual.
@@ -60,6 +71,13 @@ class Individual:
         Returns the fitness score of this `Individual`, providing this has already been calculated by passing the objective function to `fitness_score( f(x) )`.
         If the score has not yet been evaluated, trying to access this attribute will raise an `AtttributeError`.
 
+        >>> ind = Individual( np.array( [ 1, 0, 1, 0 ] ) )
+        >>> objective_function = lambda x: sum( x )
+        >>> ind.fitness_score( objective_function )
+        2
+        >>> ind.score
+        2
+
         Args:
             None
 
@@ -72,6 +90,16 @@ class Individual:
             return self._score
 
     def off_target( self, target ):
+        """
+     
+        Example:
+ 
+            >>> ind = Individual( np.array( [ 1, 0, 1, 0 ] ) )
+            >>> target = { 1: 4, 0: 0 }
+            >>> ind.off_target( target )
+            {1: -2, 0: 2}
+
+        """
         difference = {}
         count = dict( Counter( self.vector ).items() )
         for k, v in target.items():
@@ -96,3 +124,7 @@ class Individual:
 
     def __lt__( self, other ):
         return self.score < other.score
+
+    def __repr__( self ):
+        to_return = "Individual({})".format(self.vector)
+        return to_return
