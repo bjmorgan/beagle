@@ -24,6 +24,13 @@ class TestIndividual( unittest.TestCase ):
         self.individual._score = 3.5
         f = Mock()
         self.assertEqual( self.individual.fitness_score( f ), 3.5 )
+
+    def test_fitness_score_is_recalculated_if_use_saved_value_is_false( self ):
+        self.individual._score = 3.5
+        f = Mock( return_value = 4.0 )
+        score = self.individual.fitness_score( f, use_saved_value=False )
+        self.assertEqual( score, 4.0 )
+        f.assert_called_with( self.individual.vector )
     
     def test_off_target( self ):
         target = { 1:1, 2:2, 3:0 }
@@ -37,5 +44,13 @@ class TestIndividual( unittest.TestCase ):
         i = Individual( np.array( [ 3, 2, 1 ] ) )
         self.assertEqual( self.individual == i, False )
     
+    def test_score( self ):
+        self.individual._score = 2.3
+        self.assertEqual( self.individual.score, 2.3 )
+
+    def test_score_raises_attribute_error_if_not_set( self ):
+        with self.assertRaises( AttributeError ):
+            self.individual.score
+
 if __name__ == '__main__':
     unittest.main()
