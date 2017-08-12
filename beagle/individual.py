@@ -91,7 +91,8 @@ class Individual:
 
     def off_target( self, target ):
         """
-     
+        Returns the difference between the counts of appearances of integers for this `Individual` vector and a target count. For example, an `Individual` with vector `[1, 0, 1, 0]` contains `1` twice and `0` twice. If the target composition is `1` four times, and `0` none, this method will return the difference: `{1: -2, 0: 2}`.
+
         Example:
  
             >>> ind = Individual( np.array( [ 1, 0, 1, 0 ] ) )
