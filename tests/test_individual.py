@@ -52,5 +52,35 @@ class TestIndividual( unittest.TestCase ):
         with self.assertRaises( AttributeError ):
             self.individual.score
 
+    def test_constrain( self ):
+        self.individual.vector = np.array( [ 1, 0, 2 ] )
+        self.individual.off_target = Mock( side_effect=[ { 0: 1, 1: 0, 2: -1 }, { 0: 0, 1: 0, 2: 0 } ] )
+        self.individual.constrain( target={ 0:0, 1:1, 2:2 } )
+        np.testing.assert_array_equal( self.individual.vector, np.array( [ 1, 2, 2 ] ) )
+
+    def test_eq_returns_true_if_vectors_are_equal( self ):
+        other_individual = Individual( self.individual.vector )
+        self.assertEqual( self.individual == other_individual, True )
+
+
+    def test_eq_returns_false_if_vectors_are_not_equal( self ):
+        other_individual = Individual( np.array( [ 3, 2, 1 ] ) )
+        self.assertEqual( self.individual == other_individual, False )
+
+    def test_lt_returns_true_if_score_is_less_than( self ):
+        self.individual._score = 5
+        other_individual = Individual( np.array( [ 3, 2, 1 ] ) )
+        other_individual._score = 6
+        self.assertEqual( self.individual < other_individual, True )
+
+    def test_lt_returns_false_if_score_is_not_less_than( self ):
+        self.individual._score = 5
+        other_individual = Individual( np.array( [ 3, 2, 1 ] ) )
+        other_individual._score = 5
+        self.assertEqual( self.individual < other_individual, False )
+
+    def test_repr( self ):
+        self.assertEqual( str( self.individual ), 'Individual([1 2 3])' )
+
 if __name__ == '__main__':
     unittest.main()

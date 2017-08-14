@@ -111,19 +111,75 @@ class Individual:
         return difference
 
     def constrain( self, target ):
+        """
+        This method will attempt to constrain an `Individual` vector to match the composition specified by `target`. Elements that appear with too high frequency are replaced at random with elements that appear with too low frequency.
+
+        Example:
+
+            >>> ind = Individual( np.array( [ 1, 0, 2 ] ) )
+            >>> target = { 0: 0, 1: 1, 2: 2 }
+            >>> ind.constrain( target )
+            >>> ind
+            Individual([1 2 2])
+
+        """
         difference = self.off_target( target )
         while not all( v == 0 for v in difference.values() ):
             too_many = [ k for k, v in difference.items() if v > 0 ]
-            too_few  = [ k for k, v, in difference.items() if v < 0 ]
+            too_few  = [ k for k, v in difference.items() if v < 0 ]
             i = random.choice( too_many )
             j = random.choice( too_few )
             self.vector[ random.choice( matches( self.vector, i ) ) ] = j
             difference = self.off_target( target )
 
     def __eq__( self, other ):
+        """
+        Test whether this `Individual` has the same vector as another `Individual`.
+
+        Args:
+            other (`Individual`): The other `Individual`.
+
+        Returns:
+            (bool): True | False.
+
+        Example:
+
+            >>> i = Individual( np.array( [ 1, 2, 3 ] ) )
+            >>> j = Individual( np.array( [ 1, 2, 3 ] ) )
+            >>> k = Individual( np.array( [ 2, 3, 1 ] ) )
+            >>> i == j
+            True
+            >>> i == k
+            False
+
+        """
         return np.array_equal( self.vector, other.vector )
 
     def __lt__( self, other ):
+        """
+        Test whether this `Individual` has a score less than that of another `Individual`.
+
+        Args:
+            other (`Individual`): The other `Individual`.
+
+        Returns:
+            (bool): True | False.
+
+        Example:
+
+            >>> i = Individual( np.array( [ 1, 2, 3 ] ) )
+            >>> j = Individual( np.array( [ 2, 2, 3 ] ) )
+            >>> objective_function = lambda x: sum( x )
+            >>> i.fitness_score( objective_function )
+            6
+            >>> j.fitness_score( objective_function )
+            7
+            >>> i < j
+            True
+            >>> j < i
+            False
+
+        """
         return self.score < other.score
 
     def __repr__( self ):
