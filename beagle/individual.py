@@ -97,8 +97,9 @@ class Individual:
  
             >>> ind = Individual( np.array( [ 1, 0, 1, 0 ] ) )
             >>> target = { 1: 4, 0: 0 }
-            >>> ind.off_target( target )
-            {1: -2, 0: 2}
+            >>> output = ind.off_target( target )
+            >>> output.sort()
+            {0: 2, 1: -2}
 
         """
         difference = {}
