@@ -1,3 +1,5 @@
 beagle.egg-info/
 **/*.swp
 **/__pycache__/
+**/.DS_Store
+docs/build
