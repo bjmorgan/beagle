@@ -1,0 +1,3 @@
+beagle.egg-info/
+**/*.swp
+**/__pycache__/
