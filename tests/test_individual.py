@@ -2,6 +2,14 @@ import unittest
 from unittest.mock import Mock
 import numpy as np
 from beagle import Individual
+from beagle.individual import matches
+
+class TestIndividualFunctions( unittest.TestCase ):
+
+    def test_matches_matches_equal_vectors( self ):
+        vector = np.array( [ 1, 0, 1, 1, 0 ] )
+        to_match = 1
+        self.assertEqual( matches( vector, to_match ), [0, 2, 3] )
 
 class TestIndividual( unittest.TestCase ):
 

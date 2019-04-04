@@ -3,6 +3,23 @@ import random
 import numpy as np
 
 def matches( vector, a ):
+    """
+    Returns indices where the elements of a vector match some value.
+
+    Args:
+        vector (ndarray(int)): A 1D numpy array describing a vector.
+        a (int): The value to match.
+
+    Returns:
+        list(int): A list of indices for matching elements.
+
+    Example::
+
+        >>> vector = np.array( [ 1, 0, 1, 0 ] )
+        >>> matches( vector, 0 )
+        [1, 3]
+    
+    """
     return [ i for i, e in enumerate( vector ) if e == a ]
 
 def mutate( i, mutator ):
