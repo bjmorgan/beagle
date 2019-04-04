@@ -14,6 +14,11 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../../'))
+
+import beagle
 
 # -- Project information -----------------------------------------------------
 
@@ -21,6 +26,14 @@ project = 'beagle'
 copyright = '2019, Benjamin J. Morgan'
 author = 'Benjamin J. Morgan'
 
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+version = '.'.join( bsym.__version__.split('.')[:2] )
+# The full version, including alpha/beta/rc tags.
+release = bsym.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -41,6 +54,10 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+source_suffix = '.rst'
+
+# The master toctree document
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 
