@@ -2,7 +2,10 @@ import unittest
 import doctest
 from beagle import individual
 
-testSuite = unittest.TestSuite() 
-testSuite.addTest( doctest.DocTestSuite( individual ) )
-unittest.TextTestRunner( verbosity=1 ).run( testSuite )
+def load_tests(loader, tests, ignore):
+    tests.addTests(doctest.DocTestSuite(individual))
+    return tests
+
+if __name__ == '__main__':
+    unittest.main()
 

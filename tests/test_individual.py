@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 import numpy as np
 from beagle import Individual
-from beagle.individual import matches
+from beagle.individual import matches, mutate
 
 class TestIndividualFunctions( unittest.TestCase ):
 
@@ -11,6 +11,12 @@ class TestIndividualFunctions( unittest.TestCase ):
         to_match = 1
         self.assertEqual( matches( vector, to_match ), [0, 2, 3] )
 
+    def test_mutate_returns_mutated_individual(self):
+        vector = np.array([ 1, 0, 1, 0 ])
+        i = Individual(vector)
+        m = lambda x: 1-x
+        np.testing.assert_array_equal(np.array([0, 1, 0, 1]), mutate(i, m).vector)
+  
 class TestIndividual( unittest.TestCase ):
 
     def setUp( self ):
