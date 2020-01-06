@@ -1,8 +1,8 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch, call
 import numpy as np
 from beagle import Individual
-from beagle.individual import matches, mutate
+from beagle.individual import matches, mutate, crossover
 
 class TestIndividualFunctions( unittest.TestCase ):
 
@@ -17,6 +17,18 @@ class TestIndividualFunctions( unittest.TestCase ):
         m = lambda x: 1-x
         np.testing.assert_array_equal(np.array([0, 1, 0, 1]), mutate(i, m).vector)
   
+    def test_crossover(self):
+        v1 = np.array([1, 2, 3, 4])
+        v2 = np.array([5, 6, 7, 8])
+        i1 = Individual(v1)
+        i2 = Individual(v2)
+        with patch('beagle.individual.random.choice') as mock_random_choice:
+            mock_random_choice.side_effect = [1, 6, 3, 8]
+            i_co = crossover(i1, i2)
+            self.assertEqual( i_co, Individual([1, 6, 3, 8]) )
+            expected_calls = [call([1, 5]), call([2, 6]), call([3, 7]), call([4, 8])]
+            mock_random_choice.assert_has_calls(expected_calls)
+
 class TestIndividual( unittest.TestCase ):
 
     def setUp( self ):
