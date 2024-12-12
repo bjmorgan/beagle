@@ -179,6 +179,8 @@ class Individual:
 
         """
         difference = self.off_target( target )
+        if len(self.vector) != sum(target.values()):
+            raise ValueError("length mismatch between this individual and the target")
         while not all( v == 0 for v in difference.values() ):
             too_many = [ k for k, v in difference.items() if v > 0 ]
             too_few  = [ k for k, v in difference.items() if v < 0 ]
